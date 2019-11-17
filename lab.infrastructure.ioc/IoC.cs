@@ -1,8 +1,6 @@
 ﻿using System;
 using System.IO;
-using AutoMapper;
 using lab.domain.Models;
-using lab.domain.Models.Api;
 using lab.infrastructure.data.Database;
 using lab.infrastructure.data.Database.Interfaces;
 using lab.infrastructure.data.Models;

@@ -5,9 +5,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
-using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.OpenApi.Models;
+using System.Reflection;
 
 namespace lab.webapi
 {
@@ -31,6 +32,12 @@ namespace lab.webapi
 
             IoC.ConfigureInjections(_configuration, services);
 
+            services.AddVersionedApiExplorer(v =>
+            {
+                v.GroupNameFormat = "'v'VVVV";
+                v.SubstituteApiVersionInUrl = true;
+            });
+
             services.AddApiVersioning(o =>
             {
                 o.AssumeDefaultVersionWhenUnspecified = true;
@@ -38,9 +45,24 @@ namespace lab.webapi
                 o.ReportApiVersions = true;
             });
 
-            services.AddSwaggerGen(c =>
+            services.AddSwaggerGen(
+            options =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "LAB API", Version = "v1" });
+                var provider = services.BuildServiceProvider().GetRequiredService<IApiVersionDescriptionProvider>();
+
+                // Add a swagger document for each discovered API version
+                foreach (var description in provider.ApiVersionDescriptions)
+                {
+                    options.SwaggerDoc(
+                        description.GroupName,
+                        new OpenApiInfo()
+                        {
+                            Title = $"lab api - v{description.ApiVersion}",
+                            Version = description.ApiVersion.ToString(),
+                            Description = $"lab api{(description.IsDeprecated ? " - DEPRECATED" : "")}"
+                        }
+                    );
+                }
             });
 
         }
@@ -48,7 +70,8 @@ namespace lab.webapi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(
             IApplicationBuilder app,
-            IWebHostEnvironment env)
+            IWebHostEnvironment env,
+            IApiVersionDescriptionProvider ver)
         {
             if (env.IsDevelopment())
             {
@@ -56,11 +79,12 @@ namespace lab.webapi
             }
 
             app.UseSwagger();
-
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
-                c.SwaggerEndpoint("/swagger/v2/swagger.json", "v2");
+                foreach (var description in ver.ApiVersionDescriptions)
+                {
+                    c.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.ApiVersion.ToString());
+                }
             });
 
             app.UseHttpsRedirection();
