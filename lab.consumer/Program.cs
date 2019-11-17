@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using lab.domain.Enums;
 using lab.infrastructure.ioc;
 using lab.mq.Interfaces;
 using lab.mq.Messaging;
@@ -45,33 +46,36 @@ namespace lab.consumer
             Console.Title = AppDomain.CurrentDomain.FriendlyName;
         }
 
-        private static async Task Main(string[] args)
+        private static void Main(string[] args)
         {
-            int cont = 1;
-            while (true)
+            _logger.LogInformation($"Iniciando -> Consumer");
+
+            LabEnvironment LAB_ENVIRONMENT = Environment
+                    .GetEnvironmentVariable(nameof(LAB_ENVIRONMENT))
+                    .ToEnum<LabEnvironment>();
+
+            switch (LAB_ENVIRONMENT)
             {
-
-                try
-                {
-                    if (cont == 6)
-                    {
-                        throw new Exception("Erro inesperado! Bah!");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogCritical(ex.ToString());
-                    throw;
-                }
-
-                var products = await _productService.GetByNameAsync("Ração");
-
-                _logger.LogInformation($"Product {string.Join(" | ", products.Select(x => x.Name).ToArray())} - {cont}");
-
-                cont++;
-
-                System.Threading.Thread.Sleep(1000);
+                case LabEnvironment.Development:
+                    _logger.LogInformation($"Ambiente de desenvolvimento");
+                    break;
+                case LabEnvironment.Testing:
+                    _logger.LogInformation($"Ambiente de testes");
+                    break;
+                case LabEnvironment.Staging:
+                    _logger.LogInformation($"Ambiente de pré produção");
+                    break;
+                case LabEnvironment.Production:
+                    _logger.LogInformation($"Ambiente de produção");
+                    break;
+                case LabEnvironment.Unset:
+                default:
+                    _logger.LogInformation($"Ambiente não definido");
+                    break;
             }
+
+
+            _logger.LogInformation($"Finalizando -> Consumer");
         }
 
 
