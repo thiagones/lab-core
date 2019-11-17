@@ -1,4 +1,4 @@
-namespace lab.domain.Models.Api.v2
+namespace lab.domain.Models.Api
 {
     public class ProductApiModel
     {

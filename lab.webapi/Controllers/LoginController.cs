@@ -25,7 +25,7 @@ namespace lab.webapi.Controllers
         [HttpPost]
         public async Task<IActionResult> PostAsync()
         {
-            return new OkResult();
+            return await Task.Run(() => new OkResult());
         }
     }
 }

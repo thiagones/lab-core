@@ -9,6 +9,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
+using Microsoft.Extensions.Options;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using lab.webapi.Swagger;
 
 namespace lab.webapi
 {
@@ -45,25 +48,8 @@ namespace lab.webapi
                 o.ReportApiVersions = true;
             });
 
-            services.AddSwaggerGen(
-            options =>
-            {
-                var provider = services.BuildServiceProvider().GetRequiredService<IApiVersionDescriptionProvider>();
-
-                // Add a swagger document for each discovered API version
-                foreach (var description in provider.ApiVersionDescriptions)
-                {
-                    options.SwaggerDoc(
-                        description.GroupName,
-                        new OpenApiInfo()
-                        {
-                            Title = $"lab api - v{description.ApiVersion}",
-                            Version = description.ApiVersion.ToString(),
-                            Description = $"lab api{(description.IsDeprecated ? " - DEPRECATED" : "")}"
-                        }
-                    );
-                }
-            });
+            services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
+            services.AddSwaggerGen();
 
         }
 

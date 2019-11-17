@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using lab.domain.Models;
+using lab.domain.Models.Api;
 using lab.service.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -35,7 +36,7 @@ namespace lab.webapi.Controllers.v1
 
             var product = await _productService.GetByIdAsync(productId);
             
-            var productApi = _mapper.Map<domain.Models.Api.v1.ProductApiModel>(product);
+            var productApi = _mapper.Map<ProductApiModel>(product);
 
             _logger.LogInformation($"Finalizando -> GetByIdAsync v1.0");
 
@@ -69,7 +70,7 @@ namespace lab.webapi.Controllers.v1
                 products = await _productService.GetByCodeAsync(code);
             }
 
-            var productsApi = _mapper.Map<IList<domain.Models.Api.v1.ProductApiModel>>(products);
+            var productsApi = _mapper.Map<IList<ProductApiModel>>(products);
 
             _logger.LogInformation($"Finalizando -> GetAsync v1.0");
 
@@ -77,7 +78,7 @@ namespace lab.webapi.Controllers.v1
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody]domain.Models.Api.v1.ProductApiModel productApi)
+        public async Task<IActionResult> PostAsync([FromBody]ProductApiModel productApi)
         {
             _logger.LogInformation($"Iniciando -> PostAsync v1.0");
 
@@ -85,7 +86,7 @@ namespace lab.webapi.Controllers.v1
 
             product = await _productService.AddAsync(product);
 
-            productApi = _mapper.Map<domain.Models.Api.v1.ProductApiModel>(product);
+            productApi = _mapper.Map<ProductApiModel>(product);
 
             _logger.LogInformation($"Finalizando -> PostAsync v1.0");
 

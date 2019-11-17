@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using lab.domain.Models;
+using lab.domain.Models.Api;
 using lab.infrastructure.data.Database;
 using lab.infrastructure.data.Database.Interfaces;
 using lab.infrastructure.data.Models;
@@ -48,8 +49,7 @@ namespace lab.infrastructure.ioc
                 #endregion Data Models
 
                 #region Api Models
-                c.CreateMap<domain.Models.Api.v1.ProductApiModel, ProductModel>().ReverseMap();
-                c.CreateMap<domain.Models.Api.v2.ProductApiModel, ProductModel>().ReverseMap();
+                c.CreateMap<ProductApiModel, ProductModel>().ReverseMap();
                 #endregion Api Models
             });
                         
