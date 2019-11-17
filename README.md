@@ -10,7 +10,7 @@ Repositório lab para estudo .Net Core
 * WebApi
 * Console Log
 * Cloud Log **
-* JWT *
+* JWT
 * RabbitMQ (CloudAMQP) *
 * CDC **
 

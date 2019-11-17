@@ -46,10 +46,12 @@ namespace lab.infrastructure.ioc
             {
                 #region Data Models
                 c.CreateMap<ProductDataModel, ProductModel>().ReverseMap();
+                c.CreateMap<UserDataModel, UserModel>().ReverseMap();
                 #endregion Data Models
 
                 #region Api Models
                 c.CreateMap<ProductApiModel, ProductModel>().ReverseMap();
+                c.CreateMap<UserApiModel, UserModel>().ReverseMap();
                 #endregion Api Models
             });
                         
@@ -58,8 +60,12 @@ namespace lab.infrastructure.ioc
             serviceCollection.AddSingleton<IMongoContext, MongoContext>();
 
             serviceCollection.AddSingleton<IProductRepository, ProductRepository>();
+            serviceCollection.AddSingleton<IUserRepository, UserRepository>();
 
             serviceCollection.AddSingleton<IProductService, ProductService>();
+            serviceCollection.AddSingleton<IUserService, UserService>();
+            
+            serviceCollection.AddSingleton<IConfiguration>(configuration);
 
             _serviceProvider = serviceCollection.BuildServiceProvider();
         }

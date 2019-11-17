@@ -4,12 +4,14 @@ using AutoMapper;
 using lab.domain.Models;
 using lab.domain.Models.Api;
 using lab.service.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace lab.webapi.Controllers.v2
 {
     [ApiController]
+    [Authorize]
     [ApiVersion("2.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
     public class ProductController : ControllerBase
