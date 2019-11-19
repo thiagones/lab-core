@@ -19,8 +19,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lab.service.test", "lab.ser
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lab.webapi.test", "lab.webapi.test\lab.webapi.test.csproj", "{8605E547-554F-4E5E-8CE5-A5DB7EB79A15}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lab.webapp", "lab.webapp\lab.webapp.csproj", "{F124807B-6FF6-48D8-96B1-9309C9085902}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -130,17 +128,5 @@ Global
 		{8605E547-554F-4E5E-8CE5-A5DB7EB79A15}.Release|x64.Build.0 = Release|Any CPU
 		{8605E547-554F-4E5E-8CE5-A5DB7EB79A15}.Release|x86.ActiveCfg = Release|Any CPU
 		{8605E547-554F-4E5E-8CE5-A5DB7EB79A15}.Release|x86.Build.0 = Release|Any CPU
-		{F124807B-6FF6-48D8-96B1-9309C9085902}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F124807B-6FF6-48D8-96B1-9309C9085902}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F124807B-6FF6-48D8-96B1-9309C9085902}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{F124807B-6FF6-48D8-96B1-9309C9085902}.Debug|x64.Build.0 = Debug|Any CPU
-		{F124807B-6FF6-48D8-96B1-9309C9085902}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{F124807B-6FF6-48D8-96B1-9309C9085902}.Debug|x86.Build.0 = Debug|Any CPU
-		{F124807B-6FF6-48D8-96B1-9309C9085902}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F124807B-6FF6-48D8-96B1-9309C9085902}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F124807B-6FF6-48D8-96B1-9309C9085902}.Release|x64.ActiveCfg = Release|Any CPU
-		{F124807B-6FF6-48D8-96B1-9309C9085902}.Release|x64.Build.0 = Release|Any CPU
-		{F124807B-6FF6-48D8-96B1-9309C9085902}.Release|x86.ActiveCfg = Release|Any CPU
-		{F124807B-6FF6-48D8-96B1-9309C9085902}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
