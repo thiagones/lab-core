@@ -3,6 +3,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using lab.domain.Enums;
 using lab.infrastructure.ioc;
+using lab.mq.Events.Args;
+using lab.mq.Events.Handlers;
 using lab.mq.Interfaces;
 using lab.mq.Messaging;
 using lab.service.Interfaces;
@@ -16,10 +18,10 @@ namespace lab.consumer
     public class Program
     {
 
-        public static readonly IMessageQueueConnection _messageQueueConnection;
-        protected static readonly IConfiguration _configuration;
-        protected static readonly ILoggerFactory _loggerFactory;
-        protected static readonly ILogger _logger;
+        public static IMessageQueueConnection _messageQueueConnection;
+        private static readonly IConfiguration _configuration;
+        private static readonly ILoggerFactory _loggerFactory;
+        private static readonly ILogger _logger;
         private static readonly IServiceCollection _serviceCollection = new ServiceCollection();
         private static readonly IProductService _productService;
 
@@ -74,10 +76,34 @@ namespace lab.consumer
                     break;
             }
 
+            StartConsumer("queueTest");
 
-            _logger.LogInformation($"Finalizando -> Consumer");
+            while (true)
+            {
+                System.Threading.Thread.Sleep(100);
+            }
+
+            //_logger.LogInformation($"Finalizando -> Consumer");
         }
 
+        protected static void StartConsumer(string queueName)
+        {
+           using (_messageQueueConnection = IoC.GetService<IMessageQueueConnection>())
+            {
+                _messageQueueConnection.ReceivedMessage += ReceivedMessage;
 
+                _messageQueueConnection.ListenToQueue(queueName, null);
+
+                while (true)
+                {
+                    System.Threading.Thread.Sleep(300);
+                }
+            }
+        }
+
+        public static void ReceivedMessage(IMessageQueueConnection connection, ReceivedMessageEventArgs e)
+        {
+            _logger.LogInformation($"Mensagem recebida -> {e.Message}");
+        }
     }
 }

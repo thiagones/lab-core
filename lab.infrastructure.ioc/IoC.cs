@@ -9,6 +9,8 @@ using lab.infrastructure.data.Repositories;
 using lab.infrastructure.data.Repositories.Interfaces;
 using lab.infrastructure.data.Settings;
 using lab.infrastructure.data.Settings.Interfaces;
+using lab.mq.Interfaces;
+using lab.mq.Messaging;
 using lab.service.Interfaces;
 using lab.service.Services;
 using Microsoft.Extensions.Configuration;
@@ -35,8 +37,8 @@ namespace lab.infrastructure.ioc
             {
                 serviceCollection.AddSingleton(new NullLoggerFactory());
             }
-            
-            serviceCollection.AddSingleton<IDatabaseSettings>(sp => 
+
+            serviceCollection.AddSingleton<IDatabaseSettings>(sp =>
                 new DatabaseSettings(
                     configuration.GetSection("DatabaseSettings:ConnectionString").Value,
                     configuration.GetSection("DatabaseSettings:DatabaseName").Value)
@@ -54,7 +56,7 @@ namespace lab.infrastructure.ioc
                 c.CreateMap<UserApiModel, UserModel>().ReverseMap();
                 #endregion Api Models
             });
-                        
+
             serviceCollection.AddSingleton(mapperConfig.CreateMapper());
 
             serviceCollection.AddSingleton<IMongoContext, MongoContext>();
@@ -64,8 +66,9 @@ namespace lab.infrastructure.ioc
 
             serviceCollection.AddSingleton<IProductService, ProductService>();
             serviceCollection.AddSingleton<IUserService, UserService>();
-            
+
             serviceCollection.AddSingleton<IConfiguration>(configuration);
+            serviceCollection.AddSingleton<IMessageQueueConnection, RabbitMQConnection>();
 
             _serviceProvider = serviceCollection.BuildServiceProvider();
         }

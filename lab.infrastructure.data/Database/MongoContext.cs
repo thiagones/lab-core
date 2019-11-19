@@ -5,7 +5,7 @@ using MongoDB.Driver;
 
 namespace lab.infrastructure.data.Database
 {
-    public class MongoContext: IMongoContext
+    public class MongoContext : IMongoContext
     {
         private readonly IMongoDatabase _database = null;
 
@@ -14,7 +14,9 @@ namespace lab.infrastructure.data.Database
             var client = new MongoClient(databaseSettings.ConnectionString);
 
             if (client != null)
+            {
                 _database = client.GetDatabase(databaseSettings.DatabaseName);
+            }
         }
 
         public IMongoCollection<T> GetCollection<T>() where T : class
