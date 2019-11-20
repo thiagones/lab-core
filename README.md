@@ -13,6 +13,7 @@ Repositório lab para estudo .Net Core
 * JWT
 * RabbitMQ (CloudAMQP) *
 * CDC **
+* React Redux **
 
 \* Implementando \
 \** Próximos passos
