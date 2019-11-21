@@ -1,0 +1,49 @@
+version: '3'
+
+services:
+  proxy:
+    image: lab-proxy
+    build:
+      context: ./
+      dockerfile: ./lab.proxy/Dockerfile
+    depends_on:
+      - webapi
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - lab-network
+
+  webapi:
+    image: lab-webapi
+    build:
+      context: ./
+      dockerfile: ./lab.webapi/Dockerfile
+    environment: 
+      - MONGO_URL=mongodb://mongo:27017
+    networks:
+      - lab-network
+
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=123mudar
+    networks:
+      - lab-network
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - "8081:8081"
+    environment:
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=root
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=123mudar
+    networks:
+      - lab-network     
+
+networks:
+  lab-network:
+    driver: bridge

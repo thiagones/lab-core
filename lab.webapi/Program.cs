@@ -21,11 +21,30 @@ namespace lab.webapi
                 .Run();
         }
 
+        public static IHostBuilder CreateLocalHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });
+
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseKestrel();
+                    webBuilder.UseKestrel(options =>
+                    {
+                        options.Limits.MaxConcurrentConnections = null;
+                        options.Limits.MaxConcurrentUpgradedConnections = null;
+                        options.Limits.MaxRequestBodySize = 20 * 1024;
+                        options.Limits.MinRequestBodyDataRate = new MinDataRate(bytesPerSecond: 100, gracePeriod: TimeSpan.FromSeconds(10));
+                        options.Limits.MinResponseDataRate = new MinDataRate(bytesPerSecond: 100, gracePeriod: TimeSpan.FromSeconds(10));
+                        options.Listen(IPAddress.Any, 5000);
+                        // options.Listen(IPAddress.Any, 5001, listenOptions =>
+                        // {
+                        //     listenOptions.UseHttps("localhost.pfx", "Senha@123");
+                        // });
+                    });
                     webBuilder.UseStartup<Startup>();
                 });
     }

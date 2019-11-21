@@ -15,7 +15,8 @@ using lab.webapi.Swagger;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-
+using System.IO;
+using Microsoft.Extensions.Logging;
 
 namespace lab.webapi
 {
@@ -28,6 +29,7 @@ namespace lab.webapi
                 .AddJsonFile("appsettings.json")
                 .AddEnvironmentVariables()
                 .Build();
+
         }
 
         public readonly IConfiguration _configuration;
@@ -54,6 +56,7 @@ namespace lab.webapi
 
             // configure jwt authentication
             var key = Encoding.ASCII.GetBytes(_configuration.GetSection("AppSettings:Secret").Value);
+            
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

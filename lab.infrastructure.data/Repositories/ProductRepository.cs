@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using lab.infrastructure.data.Database.Interfaces;
 using lab.infrastructure.data.Models;
@@ -12,6 +13,7 @@ namespace lab.infrastructure.data.Repositories
     public class ProductRepository : BaseRepository<ProductDataModel>, IProductRepository
     {
         private readonly IMongoContext _context;
+        
         public ProductRepository(IMongoContext mongoContext)
         : base(mongoContext)
         {
@@ -21,10 +23,10 @@ namespace lab.infrastructure.data.Repositories
         public async Task<IList<ProductDataModel>> GetByCodeAsync(string productCode)
         {
             IList<ProductDataModel> products =
-                await _context.GetCollection<ProductDataModel>()
-                    .AsQueryable()
-                    .Where(x => x.Code.Contains(productCode))
-                    .ToListAsync();
+                 await _context.GetCollection<ProductDataModel>()
+                     .AsQueryable()
+                     .Where(x => x.Code.Contains(productCode))
+                     .ToListAsync();
 
             return products;
         }
