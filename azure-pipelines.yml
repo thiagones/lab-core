@@ -9,6 +9,8 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
-- task: CmdLine@2
+- task: DockerCompose@0
   inputs:
-    script: 'docker-compose build'
+    containerregistrytype: 'Container Registry'
+    dockerComposeFile: '**/docker-compose.yml'
+    action: 'Run a Docker Compose command'
