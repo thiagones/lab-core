@@ -1,31 +1,60 @@
 version: '3'
 
+networks:
+  lab-network:
+    driver: bridge
+    
 services:
-  proxy:
-    image: lab-proxy
-    build:
-      context: ./
-      dockerfile: ./lab.proxy/Dockerfile
-    depends_on:
-      - webapi
-    ports:
-      - "80:80"
-      - "443:443"
-    networks:
-      - lab-network
+  #######################################
+  # NGINX: Proxy reverso
+  #######################################
+  #proxy:
+  #  image: lab-proxy
+  #  build:
+  #    context: ./
+  #    dockerfile: ./lab.proxy/Dockerfile
+  #  depends_on:
+  #    - webapi
+  #  ports:
+  #    - "80:80"
+  #    - "443:443"
+  #  networks:
+  #    - lab-network
 
-  webapi:
+  #######################################
+  # WebApi: API A
+  #######################################
+  webapi_a:
     image: lab-webapi
+    container_name: "lab-webapi-a"
     build:
       context: ./
       dockerfile: ./lab.webapi/Dockerfile
     environment: 
-      - MONGO_URL=mongodb://mongo:27017
+      - HEALTHCHECK=HealthCheck_0001_A
     networks:
       - lab-network
 
+  #######################################
+  # WebApi: API B
+  #######################################
+  webapi_b:
+    image: lab-webapi
+    container_name: "lab-webapi-b"
+    build:
+      context: ./
+      dockerfile: ./lab.webapi/Dockerfile
+    environment: 
+      - HEALTHCHECK=HealthCheck_0002_B
+    networks:
+      - lab-network
+
+  #######################################
+  # MongoDB: Database utilizada pela API
+  #######################################
   mongo:
     image: mongo
+    container_name: "lab-mongo"
     restart: always
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
@@ -35,6 +64,7 @@ services:
 
   mongo-express:
     image: mongo-express
+    container_name: "lab-mongo-express"
     restart: always
     ports:
       - "8081:8081"
@@ -44,6 +74,97 @@ services:
     networks:
       - lab-network     
 
-networks:
-  lab-network:
-    driver: bridge
+  #######################################
+  # Postgres: Database utilizado pelo Kong
+  #######################################
+  kong-database:
+    image: postgres:9.6
+    container_name: "lab-kong-database"
+    restart: always
+    networks:
+      - lab-network
+    environment:
+      POSTGRES_USER: kong
+      POSTGRES_DB: kong
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "kong"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  #######################################
+  # Kong Database migration
+  #######################################
+  kong-migration:
+    image: kong:latest
+    command: "kong migrations bootstrap"
+    networks:
+      - lab-network
+    restart: on-failure
+    environment:
+      KONG_PG_HOST: kong-database
+    links:
+      - kong-database
+    depends_on:
+      - kong-database
+
+  #######################################
+  # Kong: API Gateway
+  #######################################
+  kong:
+    image: kong:latest
+    container_name: "lab-kong"
+    restart: always
+    networks:
+      - lab-network
+    environment:
+      KONG_PG_HOST: kong-database
+      KONG_PROXY_LISTEN: 0.0.0.0:8000
+      KONG_PROXY_LISTEN_SSL: 0.0.0.0:8443
+      KONG_ADMIN_LISTEN: 0.0.0.0:8001
+    depends_on:
+      - kong-migration
+      - kong-database
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://kong:8001"]
+      interval: 5s
+      timeout: 2s
+      retries: 15
+    ports:
+      - "8001:8001"
+      - "80:8000"
+
+  #######################################
+  # Konga Proparação do database 
+  #######################################
+  konga-prepare:
+    image: pantsel/konga:next
+    command: "-c prepare -a postgres -u postgresql://kong@kong-database:5432/konga_db"
+    networks:
+      - lab-network
+    restart: on-failure
+    links:
+      - kong-database
+    depends_on:
+      - kong-database
+
+  #######################################
+  # Konga: Kong GUI
+  #######################################
+  konga:
+    image: pantsel/konga:next
+    container_name: "lab-konga"
+    restart: always
+    networks:
+        - lab-network
+    environment:
+      DB_ADAPTER: postgres
+      DB_HOST: kong-database
+      DB_USER: kong
+      TOKEN_SECRET: km1GUr4RkcQD7DewhJPNXrCuZwcKmqjb
+      DB_DATABASE: konga_db
+      NODE_ENV: production
+    depends_on:
+      - kong-database
+    ports:
+      - "1337:1337"
