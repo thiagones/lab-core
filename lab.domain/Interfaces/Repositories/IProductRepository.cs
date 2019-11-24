@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using lab.infrastructure.data.Models;
+using lab.domain.Models.Data;
 
-namespace lab.infrastructure.data.Repositories.Interfaces
+namespace lab.domain.Interfaces.Repositories
 {
     public interface IProductRepository : IBaseRepository<ProductDataModel>
     {

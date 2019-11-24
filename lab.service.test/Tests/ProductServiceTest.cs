@@ -1,5 +1,3 @@
-using lab.service.Interfaces;
-using lab.infrastructure.ioc;
 using Xunit;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
@@ -7,6 +5,7 @@ using System.Threading.Tasks;
 using lab.service.Services;
 using Microsoft.Extensions.Logging.Abstractions;
 using lab.domain.Models;
+using lab.domain.Interfaces.Services;
 
 namespace lab.service.test.Tests
 {

@@ -1,14 +1,13 @@
 using System;
 using System.Reflection;
 using System.Text;
-using lab.mq.Interfaces;
+using lab.domain.Events.Args;
+using lab.domain.Events.Handlers;
+using lab.domain.Interfaces.Messaging;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
-using RabbitMQ.Client.Framing.Impl;
-using lab.mq.Events.Handlers;
-using lab.mq.Events.Args;
 
 namespace lab.mq.Messaging
 {

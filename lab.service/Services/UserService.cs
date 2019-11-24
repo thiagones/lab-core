@@ -1,13 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using lab.service.Interfaces;
+using lab.domain.Interfaces.Services;
 using Microsoft.Extensions.Logging;
-using lab.infrastructure.data.Repositories.Interfaces;
-using lab.infrastructure.data.Models;
 using lab.domain.Models;
 using AutoMapper;
+using lab.domain.Models.Data;
+using lab.domain.Interfaces.Repositories;
 
 namespace lab.service.Services
 {

@@ -40,10 +40,6 @@ namespace lab.webapi
                         options.Limits.MinRequestBodyDataRate = new MinDataRate(bytesPerSecond: 100, gracePeriod: TimeSpan.FromSeconds(10));
                         options.Limits.MinResponseDataRate = new MinDataRate(bytesPerSecond: 100, gracePeriod: TimeSpan.FromSeconds(10));
                         options.Listen(IPAddress.Any, 5000);
-                        // options.Listen(IPAddress.Any, 5001, listenOptions =>
-                        // {
-                        //     listenOptions.UseHttps("localhost.pfx", "Senha@123");
-                        // });
                     });
                     webBuilder.UseStartup<Startup>();
                 });

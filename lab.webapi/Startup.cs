@@ -7,16 +7,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.OpenApi.Models;
-using System.Reflection;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using lab.webapi.Swagger;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using System.IO;
-using Microsoft.Extensions.Logging;
+using FluentValidation.AspNetCore;
 
 namespace lab.webapi
 {
@@ -37,7 +34,15 @@ namespace lab.webapi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers()
+                .AddJsonOptions(options =>
+                {
+                    var serializerOptions = options.JsonSerializerOptions;
+                    serializerOptions.IgnoreNullValues = true;
+                    //serializerOptions.IgnoreReadOnlyProperties = true; //Comentado pois estou retornando dynamic em alguns pontos
+                    serializerOptions.WriteIndented = true;
+                })
+                .AddFluentValidation();
 
             IoC.ConfigureInjections(_configuration, services);
 
@@ -56,7 +61,7 @@ namespace lab.webapi
 
             // configure jwt authentication
             var key = Encoding.ASCII.GetBytes(_configuration.GetSection("AppSettings:Secret").Value);
-            
+
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

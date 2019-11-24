@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using lab.domain.Interfaces.Repositories;
+using lab.domain.Models.Data;
 using lab.infrastructure.data.Database.Interfaces;
-using lab.infrastructure.data.Models;
-using lab.infrastructure.data.Repositories.Interfaces;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 

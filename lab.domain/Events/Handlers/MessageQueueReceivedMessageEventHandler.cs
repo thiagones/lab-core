@@ -1,8 +1,8 @@
 
-using lab.mq.Events.Args;
-using lab.mq.Interfaces;
+using lab.domain.Events.Args;
+using lab.domain.Interfaces.Messaging;
 
-namespace lab.mq.Events.Handlers
+namespace lab.domain.Events.Handlers
 {
         public delegate void MessageQueueReceivedMessageEventHandler(IMessageQueueConnection messageConnector, ReceivedMessageEventArgs e);
 }

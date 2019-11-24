@@ -1,7 +1,7 @@
 using System;
-using lab.mq.Events.Handlers;
+using lab.domain.Events.Handlers;
 
-namespace lab.mq.Interfaces
+namespace lab.domain.Interfaces.Messaging
 {
     public interface IMessageQueueConnection : IDisposable
     {

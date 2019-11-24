@@ -1,7 +1,7 @@
 
-using lab.mq.Events.Args;
+using lab.domain.Events.Args;
 
-namespace lab.mq.Events.Handlers
+namespace lab.domain.Events.Handlers
 {
     public delegate void MessageQueueExceptionEventHandler(object sender, MessageQueueExeptionEventArgs e);
 }

@@ -1,11 +1,10 @@
 ﻿using System.Threading.Tasks;
 using AutoMapper;
 using lab.domain.Models.Api;
-using lab.service.Interfaces;
+using lab.domain.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -19,6 +18,7 @@ namespace lab.webapi.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [ApiVersion("2.0")]
+    [Route("api/[controller]")]
     [Route("api/v{version:apiVersion}/[controller]")]
     public class UserController : ControllerBase
     {

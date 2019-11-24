@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using lab.domain.Interfaces.Repositories;
 using lab.infrastructure.data.Database.Interfaces;
-using lab.infrastructure.data.Repositories.Interfaces;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using Newtonsoft.Json;

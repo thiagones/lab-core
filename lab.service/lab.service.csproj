@@ -11,7 +11,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\lab.domain\lab.domain.csproj" />
-    <ProjectReference Include="..\lab.infrastructure.data\lab.infrastructure.data.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,8 +1,7 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using lab.domain.Models;
 
-namespace lab.service.Interfaces
+namespace lab.domain.Interfaces.Services
 {
     public interface IUserService
     {

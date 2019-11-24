@@ -1,4 +1,4 @@
-namespace lab.mq.Events.Args
+namespace lab.domain.Events.Args
 {
     public sealed class ReceivedMessageEventArgs
     {

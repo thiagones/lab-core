@@ -1,5 +1,6 @@
 # Build Environment
 FROM mcr.microsoft.com/dotnet/core/sdk:3.0 AS build-env
+
 WORKDIR /src
 
 COPY *.sln ./
@@ -17,7 +18,7 @@ RUN dotnet restore
 
 COPY . .
 
-RUN dotnet publish -c Release -o out
+RUN dotnet publish -c Debug -o out
 
 # Runtime Environment
 

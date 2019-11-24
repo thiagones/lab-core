@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
 using lab.domain.Enums;
 using lab.infrastructure.ioc;
-using lab.mq.Events.Args;
-using lab.mq.Events.Handlers;
-using lab.mq.Interfaces;
-using lab.mq.Messaging;
-using lab.service.Interfaces;
-using lab.service.Services;
+using lab.domain.Events.Args;
+using lab.domain.Interfaces.Messaging;
+using lab.domain.Interfaces.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;

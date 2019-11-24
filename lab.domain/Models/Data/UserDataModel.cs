@@ -1,12 +1,7 @@
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
-
-namespace lab.infrastructure.data.Models
+namespace lab.domain.Models.Data
 {
     public class UserDataModel
     {
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

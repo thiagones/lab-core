@@ -3,16 +3,16 @@ using System.Threading.Tasks;
 using AutoMapper;
 using lab.domain.Models;
 using lab.domain.Models.Api;
-using lab.service.Interfaces;
+using lab.domain.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace lab.webapi.Controllers.v1
+namespace lab.webapi.Controllers.v2
 {
     [ApiController]
     [Authorize]
-    [ApiVersion("1.0", Deprecated = true)]
+    [ApiVersion("2.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
     public class ProductController : ControllerBase
     {
@@ -34,13 +34,13 @@ namespace lab.webapi.Controllers.v1
         [Route("{productId}")]
         public async Task<IActionResult> GetByIdAsync(string productId)
         {
-            _logger.LogInformation($"Iniciando -> GetByIdAsync v1.0");
+            _logger.LogInformation($"Iniciando -> GetByIdAsync v.2.0");
 
             var product = await _productService.GetByIdAsync(productId);
             
             var productApi = _mapper.Map<ProductApiModel>(product);
 
-            _logger.LogInformation($"Finalizando -> GetByIdAsync v1.0");
+            _logger.LogInformation($"Finalizando -> GetByIdAsync v.2.0");
 
             return new OkObjectResult(productApi);
         }
@@ -48,7 +48,7 @@ namespace lab.webapi.Controllers.v1
         [HttpGet]
         public async Task<IActionResult> GetAsync(string name, string code)
         {
-            _logger.LogInformation($"Iniciando -> GetAsync v1.0");
+            _logger.LogInformation($"Iniciando -> GetAsync v2.0");
 
             if (string.IsNullOrEmpty(name) && string.IsNullOrEmpty(code))
             {
@@ -74,7 +74,7 @@ namespace lab.webapi.Controllers.v1
 
             var productsApi = _mapper.Map<IList<ProductApiModel>>(products);
 
-            _logger.LogInformation($"Finalizando -> GetAsync v1.0");
+            _logger.LogInformation($"Finalizando -> GetAsync v2.0");
 
             return new OkObjectResult(productsApi);
         }
@@ -82,7 +82,7 @@ namespace lab.webapi.Controllers.v1
         [HttpPost]
         public async Task<IActionResult> PostAsync([FromBody]ProductApiModel productApi)
         {
-            _logger.LogInformation($"Iniciando -> PostAsync v1.0");
+            _logger.LogInformation($"Iniciando -> PostAsync v2.0");
 
             ProductModel product = _mapper.Map<ProductModel>(productApi);
 
@@ -90,10 +90,10 @@ namespace lab.webapi.Controllers.v1
 
             productApi = _mapper.Map<ProductApiModel>(product);
 
-            _logger.LogInformation($"Finalizando -> PostAsync v1.0");
+            _logger.LogInformation($"Finalizando -> PostAsync v2.0");
 
             return new CreatedResult(product.Id, productApi);
         }
-
+        
     }
 }
