@@ -14,6 +14,7 @@ Repositório lab para estudo .Net Core
 * RabbitMQ *
 * CDC **
 * React Redux **
+* API Gateway (Kong)
 
 \* Implementando \
 \** Próximos passos
