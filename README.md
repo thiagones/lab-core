@@ -17,5 +17,6 @@ Repositório lab para estudo .Net Core
 * API Gateway (Kong)
 * FluentValidation
 
+
 ¹ Implementando \
 ² Próximos passos
