@@ -15,6 +15,7 @@ Repositório lab para estudo .Net Core
 * CDC **
 * React Redux **
 * API Gateway (Kong)
+* FluentValidation
 
 \* Implementando \
 \** Próximos passos
