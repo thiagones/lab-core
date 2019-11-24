@@ -1,31 +1,16 @@
-version: '3'
+version: '3.7'
 
 networks:
   lab-network:
     driver: bridge
     
 services:
-  #######################################
-  # NGINX: Proxy reverso
-  #######################################
-  #proxy:
-  #  image: lab-proxy
-  #  build:
-  #    context: ./
-  #    dockerfile: ./lab.proxy/Dockerfile
-  #  depends_on:
-  #    - webapi
-  #  ports:
-  #    - "80:80"
-  #    - "443:443"
-  #  networks:
-  #    - lab-network
-
+ 
   #######################################
   # WebApi: API A
   #######################################
   webapi_a:
-    image: lab-webapi
+    image: lab-webapi:latest
     container_name: "lab-webapi-a"
     build:
       context: ./
@@ -39,13 +24,13 @@ services:
   # WebApi: API B
   #######################################
   webapi_b:
-    image: lab-webapi
+    image: lab-webapi:latest
     container_name: "lab-webapi-b"
     build:
       context: ./
       dockerfile: ./lab.webapi/Dockerfile
     environment: 
-      - HEALTHCHECK=HealthCheck_0002_B
+      - HEALTHCHECK=HealthCheck_9999_B
     networks:
       - lab-network
 
@@ -53,7 +38,7 @@ services:
   # MongoDB: Database utilizada pela API
   #######################################
   mongo:
-    image: mongo
+    image: mongo:latest
     container_name: "lab-mongo"
     restart: always
     environment:
@@ -63,7 +48,7 @@ services:
       - lab-network
 
   mongo-express:
-    image: mongo-express
+    image: mongo-express:latest
     container_name: "lab-mongo-express"
     restart: always
     ports:
@@ -131,8 +116,9 @@ services:
       timeout: 2s
       retries: 15
     ports:
-      - "8001:8001"
       - "80:8000"
+      - "443:8443"
+
 
   #######################################
   # Konga Proparação do database 
