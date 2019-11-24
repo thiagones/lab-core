@@ -9,13 +9,13 @@ Repositório lab para estudo .Net Core
 * Swagger
 * WebApi
 * Console Log
-* Cloud Log **
+* Cloud Log ²
 * JWT
-* RabbitMQ *
-* CDC **
-* React Redux **
+* RabbitMQ ¹
+* CDC ²
+* React Redux ²
 * API Gateway (Kong)
 * FluentValidation
 
-\* Implementando \
-\** Próximos passos
+¹ Implementando \
+² Próximos passos
