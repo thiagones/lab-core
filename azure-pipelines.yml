@@ -9,8 +9,6 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
-- task: DockerCompose@0
+- task: DotNetCoreCLI@2
   inputs:
-    containerregistrytype: 'Container Registry'
-    dockerComposeFile: './docker-compose.yml'
-    action: 'Run a Docker Compose command'
+    command: 'build'
