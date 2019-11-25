@@ -58,6 +58,32 @@ services:
       - ME_CONFIG_MONGODB_ADMINPASSWORD=123mudar
     networks:
       - lab-network     
+  
+  #######################################
+  # Redis: Cache
+  #######################################
+  redis:
+    image: redis:latest
+    container_name: "lab-redis"
+    networks: 
+      - lab-network
+
+  #######################################
+  # Redis: Cache
+  #######################################
+  rabbit:
+    image: "rabbitmq:3-management"
+    container_name: "lab-rabbitmq"
+    environment:
+      - RABBITMQ_ERLANG_COOKIE=SWQOKODSQALRPCQWEASDG
+      - RABBITMQ_DEFAULT_USER=rabbitmq
+      - RABBITMQ_DEFAULT_PASS=rabbitmq
+      - RABBITMQ_DEFAULT_VHOST=/
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    networks: 
+      - lab-network
 
   #######################################
   # Postgres: Database utilizado pelo Kong
