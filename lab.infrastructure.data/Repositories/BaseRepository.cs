@@ -11,8 +11,8 @@ namespace lab.infrastructure.data.Repositories
 {
     public class BaseRepository<TEntity> : IDisposable, IBaseRepository<TEntity> where TEntity : class
     {
-        private readonly IMongoContext _context;
-        public BaseRepository(IMongoContext mongoContext)
+        private readonly IMongoConnection _context;
+        public BaseRepository(IMongoConnection mongoContext)
         {
             _context = mongoContext;
         }

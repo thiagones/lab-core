@@ -12,9 +12,9 @@ namespace lab.infrastructure.data.Repositories
 {
     public class ProductRepository : BaseRepository<ProductDataModel>, IProductRepository
     {
-        private readonly IMongoContext _context;
+        private readonly IMongoConnection _context;
         
-        public ProductRepository(IMongoContext mongoContext)
+        public ProductRepository(IMongoConnection mongoContext)
         : base(mongoContext)
         {
             _context = mongoContext;

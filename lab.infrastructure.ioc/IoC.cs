@@ -34,7 +34,6 @@ namespace lab.infrastructure.ioc
             IConfiguration configuration,
             IServiceCollection serviceCollection)
         {
-
             #region Log
             if (File.Exists(Path.Combine(AppContext.BaseDirectory, "log4net.config")))
             {
@@ -70,23 +69,7 @@ namespace lab.infrastructure.ioc
                     configuration.GetSection("DatabaseSettings:DatabaseName").Value)
             );
 
-            serviceCollection.AddSingleton<IMongoContext, MongoContext>();
-
-            BsonClassMap.RegisterClassMap<UserDataModel>(cm =>
-            {
-                cm.AutoMap();
-                cm.MapIdProperty(c => c.Id)
-                    .SetIdGenerator(StringObjectIdGenerator.Instance)
-                    .SetSerializer(new StringSerializer(BsonType.ObjectId));
-            });
-
-            BsonClassMap.RegisterClassMap<ProductDataModel>(cm =>
-            {
-                cm.AutoMap();
-                cm.MapIdProperty(c => c.Id)
-                    .SetIdGenerator(StringObjectIdGenerator.Instance)
-                    .SetSerializer(new StringSerializer(BsonType.ObjectId));
-            });
+            serviceCollection.AddSingleton<IMongoConnection, MongoConnection>();
             #endregion DB Context
 
             #region Repository

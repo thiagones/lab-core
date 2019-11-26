@@ -10,9 +10,9 @@ namespace lab.infrastructure.data.Repositories
 {
     public class UserRepository : BaseRepository<UserDataModel>, IUserRepository
     {
-        private readonly IMongoContext _context;
+        private readonly IMongoConnection _context;
 
-        public UserRepository(IMongoContext mongoContext)
+        public UserRepository(IMongoConnection mongoContext)
         : base(mongoContext)
         {
             _context = mongoContext;
